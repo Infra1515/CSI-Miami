@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CSI_Miami.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using CSI_Miami.Web.Models;
 
-namespace CSI_Miami.Web.Data
+namespace CSI_Miami.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

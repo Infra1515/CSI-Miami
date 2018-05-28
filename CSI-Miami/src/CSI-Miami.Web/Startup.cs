@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CSI_Miami.Web.Data;
-using CSI_Miami.Web.Models;
-using CSI_Miami.Web.Services;
+using CSI_Miami.Data.Models;
+using CSI_Miami.Services.External;
+using CSI_Miami.Data;
 
 namespace CSI_Miami.Web
 {
