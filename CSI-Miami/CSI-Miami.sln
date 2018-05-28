@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSI-Miami.Web", "src\CSI-Miami.Web\CSI-Miami.Web.csproj", "{3086C23F-906E-4474-B9EC-88332CC035D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSI-Miami.Data", "src\CSI-Miami.Data\CSI-Miami.Data.csproj", "{19760F1C-A74A-436D-8B61-4CB067889970}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSI-Miami.Services.Internal", "src\CSI-Miami.Services.Internal\CSI-Miami.Services.Internal.csproj", "{170A920E-DC6C-4686-9215-2EA44D24278E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSI-Miami.DTO", "src\CSI-Miami.DTO\CSI-Miami.DTO.csproj", "{A6CA1978-D477-480B-AB97-8C0AF5DDDFF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSI-Miami.Services.External", "src\CSI-Miami.Services.External\CSI-Miami.Services.External.csproj", "{28531383-1CD0-43DF-B48E-E386849EE86D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSI-Miami.Infrastructure", "src\CSI-Miami.Infrastructure\CSI-Miami.Infrastructure.csproj", "{97949F99-4356-4235-8D27-B4CFED55B4F3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3086C23F-906E-4474-B9EC-88332CC035D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3086C23F-906E-4474-B9EC-88332CC035D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3086C23F-906E-4474-B9EC-88332CC035D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3086C23F-906E-4474-B9EC-88332CC035D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19760F1C-A74A-436D-8B61-4CB067889970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19760F1C-A74A-436D-8B61-4CB067889970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19760F1C-A74A-436D-8B61-4CB067889970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19760F1C-A74A-436D-8B61-4CB067889970}.Release|Any CPU.Build.0 = Release|Any CPU
+		{170A920E-DC6C-4686-9215-2EA44D24278E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{170A920E-DC6C-4686-9215-2EA44D24278E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{170A920E-DC6C-4686-9215-2EA44D24278E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{170A920E-DC6C-4686-9215-2EA44D24278E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6CA1978-D477-480B-AB97-8C0AF5DDDFF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6CA1978-D477-480B-AB97-8C0AF5DDDFF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6CA1978-D477-480B-AB97-8C0AF5DDDFF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6CA1978-D477-480B-AB97-8C0AF5DDDFF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28531383-1CD0-43DF-B48E-E386849EE86D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28531383-1CD0-43DF-B48E-E386849EE86D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28531383-1CD0-43DF-B48E-E386849EE86D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28531383-1CD0-43DF-B48E-E386849EE86D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97949F99-4356-4235-8D27-B4CFED55B4F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97949F99-4356-4235-8D27-B4CFED55B4F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97949F99-4356-4235-8D27-B4CFED55B4F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97949F99-4356-4235-8D27-B4CFED55B4F3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {84B70CE0-0E32-4E76-BCBD-078A3D12482D}
+	EndGlobalSection
+EndGlobal
