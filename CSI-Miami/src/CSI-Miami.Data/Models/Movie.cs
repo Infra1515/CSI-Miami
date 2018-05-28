@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using CSI_Miami.Data.Models.Abstracts;
 
 namespace CSI_Miami.Data.Models
 {
-    public class Movie
+    public class Movie : DataModel
     {
         [MaxLength(200)]
         [Required]
