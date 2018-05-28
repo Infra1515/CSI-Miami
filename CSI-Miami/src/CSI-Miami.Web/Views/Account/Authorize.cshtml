@@ -1,0 +1,24 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+
+<div asp-validation-summary="All" class="bg-danger text-danger text-center"></div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Login</h2>
+        <section>
+            @await Html.PartialAsync("_LoginAccountPartial", new LoginViewModel())
+        </section>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <h2>Register</h2>
+        <section>
+            @await Html.PartialAsync("_RegisterAccountPartial", new RegisterViewModel())
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -9,6 +9,10 @@ using CSI_Miami.Services.External;
 using CSI_Miami.Data;
 using System;
 using AutoMapper;
+using CSI_Miami.Infrastructure.Providers.Contracts;
+using CSI_Miami.Infrastructure.Providers;
+using CSI_Miami.Data.Repository;
+using CSI_Miami.Data.UnitOfWork;
 
 namespace CSI_Miami.Web
 {
@@ -45,6 +49,10 @@ namespace CSI_Miami.Web
         {
             services.AddMvc();
             services.AddMemoryCache();
+
+            services.AddScoped<IMappingProvider, MappingProvider>();
+            services.AddScoped<IUserManagerProvider, UserManagerProvider>();
+
             services.AddAutoMapper(options =>
             {
                 options.AddProfile<MappingSettings>();
@@ -57,6 +65,9 @@ namespace CSI_Miami.Web
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Authorize");
 
             if (this.Environment.IsDevelopment())
             {
@@ -81,6 +92,9 @@ namespace CSI_Miami.Web
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped(typeof(IDataRepository<>), typeof(DataRepository<>));
+            services.AddScoped<IDataSaver, DataSaver>();
 
         }
 

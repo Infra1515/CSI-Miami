@@ -10,13 +10,15 @@ namespace CSI_Miami.Web.Models.AccountViewModels
     {
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Email")]
+        public string LoginEmail { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        [Display(Name = "Password")]
+        public string LoginPassword { get; set; }
 
         [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
+        public bool LoginRememberMe { get; set; }
     }
 }
