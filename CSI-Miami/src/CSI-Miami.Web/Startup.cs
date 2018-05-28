@@ -8,6 +8,7 @@ using CSI_Miami.Data.Models;
 using CSI_Miami.Services.External;
 using CSI_Miami.Data;
 using System;
+using AutoMapper;
 
 namespace CSI_Miami.Web
 {
@@ -44,6 +45,10 @@ namespace CSI_Miami.Web
         {
             services.AddMvc();
             services.AddMemoryCache();
+            services.AddAutoMapper(options =>
+            {
+                options.AddProfile<MappingSettings>();
+            });
 
         }
 
