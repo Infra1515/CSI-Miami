@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CSI_Miami.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using CSI_Miami.Infrastructure.Providers.Contracts;
+using CSI_Miami.Services.Internal.Contracts;
 
 namespace CSI_Miami.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IMappingProvider mapper;
+        private readonly IUserManagerProvider userManager;
+        private readonly IMovieService movieService;
+
         public IActionResult Index()
         {
             if (this.User != null &&
