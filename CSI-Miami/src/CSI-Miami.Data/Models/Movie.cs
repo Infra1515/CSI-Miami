@@ -8,6 +8,8 @@ namespace CSI_Miami.Data.Models
 {
     public class Movie : DataModel
     {
+        public int Id { get; set; }
+
         [MaxLength(200)]
         [Required]
         public string Title { get; set; }

@@ -13,6 +13,7 @@ using CSI_Miami.Infrastructure.Providers.Contracts;
 using CSI_Miami.Infrastructure.Providers;
 using CSI_Miami.Data.Repository;
 using CSI_Miami.Data.UnitOfWork;
+using CSI_Miami.Infrastructure.DataInitializer;
 
 namespace CSI_Miami.Web
 {
@@ -52,6 +53,8 @@ namespace CSI_Miami.Web
 
             services.AddScoped<IMappingProvider, MappingProvider>();
             services.AddScoped<IUserManagerProvider, UserManagerProvider>();
+            services.AddScoped<IDataInitializer, DataInitializer>();
+
 
             services.AddAutoMapper(options =>
             {
@@ -99,7 +102,8 @@ namespace CSI_Miami.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
+            IDataInitializer dataInitializer, ApplicationDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -122,6 +126,9 @@ namespace CSI_Miami.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            context.Database.Migrate();
+            dataInitializer.Initialize();
 
         }
     }
