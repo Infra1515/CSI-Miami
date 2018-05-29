@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace CSI_Miami.DTO.MovieService
+namespace CSI_Miami.Web.Models.HomeViewModels.Results
 {
-    public class MovieDto
+    public class ResultsMoviesViewModel
     {
         public int Id { get; set; }
 

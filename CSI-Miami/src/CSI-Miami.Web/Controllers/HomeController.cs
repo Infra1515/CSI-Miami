@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CSI_Miami.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using CSI_Miami.Infrastructure.Providers.Contracts;
 using CSI_Miami.Services.Internal.Contracts;
+using CSI_Miami.DTO.MovieService;
+using CSI_Miami.Web.Models.HomeViewModels.Results;
 
 namespace CSI_Miami.Web.Controllers
 {
@@ -16,6 +15,14 @@ namespace CSI_Miami.Web.Controllers
         private readonly IMappingProvider mapper;
         private readonly IUserManagerProvider userManager;
         private readonly IMovieService movieService;
+
+        public HomeController(IMappingProvider mapper, IUserManagerProvider userManager,
+            IMovieService movieService)
+        {
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            this.movieService = movieService ?? throw new ArgumentNullException(nameof(movieService));
+        }
 
         public IActionResult Index()
         {
@@ -33,6 +40,25 @@ namespace CSI_Miami.Web.Controllers
         [Authorize]
         public IActionResult Results()
         {
+            var allMovies = this.movieService.GetAllMovies(0);
+            var userName = this.userManager.GetUserName(User);
+            var allMoviesViewModel = this.mapper
+                            .EnumerableProjectTo<MovieDto, ResultsMoviesViewModel>(allMovies);
+
+            var resultsViewModel = new ResultsViewModel
+            {
+                Movies = allMoviesViewModel,
+                UserName = userName
+            };
+
+            return View(resultsViewModel);
+        }
+
+        [Authorize]
+        public IActionResult LoadMoreMovies()
+        {
+            // store how much movies we have loaded so far in ViewData[] and increase it each time
+            // this action is called
             return View();
         }
 

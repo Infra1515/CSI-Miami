@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CSI_Miami.Data.Models;
 using CSI_Miami.Data.Repository;
 using CSI_Miami.Data.UnitOfWork;
@@ -23,20 +24,23 @@ namespace CSI_Miami.Infrastructure.DataInitializer
 
         private void InitializeMovies()
         {
-            for (int i = 0; i < 100; i++)
+            if (!this.movieRepo.All.Any())
             {
-                var movie = new Movie()
+                for (int i = 0; i < 100; i++)
                 {
-                    Title = "TestMovie" + i,
-                    DirectorName = "TestDirector" + i,
-                    ReleaseDate = DateTime.Now.ToShortDateString(),
-                    IsDeleted = false
-                };
+                    var movie = new Movie()
+                    {
+                        Title = "TestMovie" + i,
+                        DirectorName = "TestDirector" + i,
+                        ReleaseDate = DateTime.Now.ToShortDateString(),
+                        IsDeleted = false
+                    };
 
-                this.movieRepo.Add(movie);
+                    this.movieRepo.Add(movie);
+                }
+
+                this.dataSaver.SaveChanges();
             }
-
-            this.dataSaver.SaveChanges();
         }
     }
 }

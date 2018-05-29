@@ -5,8 +5,11 @@ using CSI_Miami.Data.Models;
 using CSI_Miami.Data.Repository;
 using CSI_Miami.Data.UnitOfWork;
 using CSI_Miami.DTO.MovieService;
+using CSI_Miami.Infrastructure.Providers.Contracts;
 using CSI_Miami.Services.Internal.Contracts;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace CSI_Miami.Services.Internal
 {
@@ -16,29 +19,49 @@ namespace CSI_Miami.Services.Internal
         private readonly IDataRepository<Movie> moviesRepo;
         private readonly IDataSaver dataSaver;
         private readonly IMemoryCache memoryCache;
+        private readonly IConfiguration configuration;
 
         public MovieService(IMappingProvider mapper, IDataRepository<Movie> moviesRepo,
-            IDataSaver dataSaver, IMemoryCache memoryCache)
+            IDataSaver dataSaver, IMemoryCache memoryCache, IConfiguration configuration)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.moviesRepo = moviesRepo ?? throw new ArgumentNullException(nameof(moviesRepo));
             this.dataSaver = dataSaver ?? throw new ArgumentNullException(nameof(dataSaver));
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
 
-        public IEnumerable<MovieDto> GetAllMovies()
+        public IEnumerable<MovieDto> GetAllMovies(int moviesToSkip)
         {
 
             IEnumerable<MovieDto> movieDtos;
+            int moviesPerPage;
 
-            if (!this.memoryCache.TryGetValue("AllMovies", out movieDtos))
+            try
             {
-                var allMovies = this.moviesRepo.All;
+                moviesPerPage = int.Parse(configuration["MoviesPerPage"]);
+            }
+            catch (KeyNotFoundException)
+            {
+                moviesPerPage = 10;
+            }
 
-                movieDtos = this.mapper.ProjectTo<MovieDto>(allMovies).ToList();
+            var allMovies = this.moviesRepo.All;
 
-                this.memoryCache.Set("AllMovies", movieDtos, TimeSpan.FromHours(8));
+            if ((moviesToSkip + moviesPerPage) >= allMovies.Count())
+            {
+                moviesPerPage = allMovies.Count() - (moviesToSkip + moviesPerPage);
+                movieDtos = this.mapper.ProjectTo<MovieDto>(allMovies)
+                .Skip(moviesToSkip)
+                .Take(moviesPerPage);
+
+            }
+            else
+            {
+                movieDtos = this.mapper.ProjectTo<MovieDto>(allMovies)
+                    .Skip(moviesToSkip)
+                    .Take(moviesPerPage);
             }
 
             return movieDtos;

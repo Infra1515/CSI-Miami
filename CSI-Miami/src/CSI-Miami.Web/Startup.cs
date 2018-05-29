@@ -14,6 +14,8 @@ using CSI_Miami.Infrastructure.Providers;
 using CSI_Miami.Data.Repository;
 using CSI_Miami.Data.UnitOfWork;
 using CSI_Miami.Infrastructure.DataInitializer;
+using CSI_Miami.Services.Internal;
+using CSI_Miami.Services.Internal.Contracts;
 
 namespace CSI_Miami.Web
 {
@@ -42,6 +44,7 @@ namespace CSI_Miami.Web
 
         private void RegisterServices(IServiceCollection services)
         {
+            services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IEmailSender, EmailSender>();
 
         }

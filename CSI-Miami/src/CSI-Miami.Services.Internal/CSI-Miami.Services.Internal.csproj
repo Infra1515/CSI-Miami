@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CSI-Miami.Data\CSI-Miami.Data.csproj" />
     <ProjectReference Include="..\CSI-Miami.DTO\CSI-Miami.DTO.csproj" />
+    <ProjectReference Include="..\CSI-Miami.Infrastructure\CSI-Miami.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

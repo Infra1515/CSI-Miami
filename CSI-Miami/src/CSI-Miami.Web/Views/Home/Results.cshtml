@@ -1,0 +1,123 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model CSI_Miami.Web.Models.HomeViewModels.Results.ResultsViewModel
+
+<h1>Hello @Model.UserName and welcome to the CSI-Miami Movie DB!</h1>
+@if (Model.Movies.Any())
+{
+    <div class="container">
+        <div class="row">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Edit</th>
+                        <th>Details</th>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Director</th>
+                        <th>Data released</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var movie in Model.Movies)
+                    {
+                        <tr>
+                            <td>
+                                <input id="Id" name="Id" type="hidden" value="@movie.Id" />
+                                <button type="button" class="col-xs-12 btn btn-default btn-xs" data-toggle="modal" data-target="#myModalNorm-@movie.Id">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    Edit
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModalNorm-@movie.Id" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <button type="button" class="close"
+                                                        data-dismiss="modal">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    <span class="sr-only">Close</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                    Edit Movie
+                                                </h4>
+                                            </div>
+                                            <!-- Modal Body -->
+                                            <div class="modal-body">
+                                                <form asp-controller="Home" asp-action="EditTest" method="post" class="edit-test">
+                                                    <input id="Id" name="Id" type="hidden" value="@movie.Id" />
+
+                                                    <div class="form-group">
+                                                        <label for="movieTitle">New Movie Title</label>
+                                                        <input asp-for="@movie.Title" type="text" class="form-control"
+                                                               id="movie-title-@movie.Id" />
+                                                        <span asp-validation-for="@movie.Title" class="text-danger"></span>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="movieDirector">New Movie Director</label>
+                                                        <input asp-for="@movie.DirectorName" type="text" class="form-control"
+                                                               id="movie-director-@movie.Id" />
+                                                        <span asp-validation-for="@movie.DirectorName" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="movieReleaseDate">New Release date</label>
+                                                        <input asp-for="@movie.ReleaseDate" type="text" class="form-control"
+                                                               id="movie-releasedate-@movie.Id" />
+                                                        <span asp-validation-for="@movie.ReleaseDate" class="text-danger"></span>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-default">Update Movie</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <form asp-controller="Home" asp-action="MovieDetails" method="post">
+                                    <input id="Id" name="Id" type="hidden" value="@movie.Id" />
+                                    <button type="submit" class="col-xs-12 btn btn-default btn-xs">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                        Details
+                                    </button>
+                                </form>
+                            </td>
+                            <td>@movie.Id</td>
+                            <td>@movie.Title</td>
+                            <td>@movie.DirectorName</td>
+                            <td>@movie.ReleaseDate</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @*<div class="col-md-4 text-center">
+                    <a href="#" class="previous round">&#8249;</a>
+                    <a href="#" class="next round">&#8250;</a>
+                </div>*@
+
+            <div class="col-sm-12 text-center">
+                <a asp-controller="Home" asp-action="ExportToFile" class="btn btn-primary pull-right">Export To File</a>
+                <a asp-controller="Home" asp-action="AddMovie" class="btn btn-primary pull-left">Add Movie</a>
+                <a asp-controller="Home" asp-action="LoadLessMovies" class="previous round text-center">&#8249;</a>
+                <a asp-controller="Home" asp-action="LoadMoreMovies" class="next round text-center">&#8250;</a>
+            </div>
+
+        </div>
+    </div>
+
+}
+else
+{
+    <h1>NO MOVIES !</h1>
+
+}
+
+
+@section Scripts{
+    <script src="~/js/results-async-operations.js"></script>
+}
