@@ -13,7 +13,10 @@ $(function () {
         var currentMovieName = $('#table-movie-title-' + id);
         var currentMovieDirectorName = $('#table-movie-directorName-' + id);
         var currentMovieReleaseDate = $('#table-movie-releaseDate-' + id);
-        console.log(currentMovieReleaseDate.html());
+
+        var modalDetailsMovieName = $("#movie-title-details-" + id);
+        var modalDetailsDirectorName = $("#movie-director-details-" + id);
+        var modalDetailsReleaseDate = $("#movie-releasedate-details-" + id);
 
 
         var url = this.action;
@@ -28,9 +31,15 @@ $(function () {
             data: data,
             success: function (response, status, headers) {
                 if (response.value.isEdited === true) {
+
                     currentMovieName.html(newMovieName);
                     currentMovieDirectorName.html(newDirectorName);
                     currentMovieReleaseDate.html(newReleaseDate);
+
+                    modalDetailsMovieName.val(newMovieName);
+                    modalDetailsDirectorName.val(newDirectorName);
+                    modalDetailsReleaseDate.val(newReleaseDate);
+
                     window.alert('Movie was successfully edited!');
                 }
                 else {
