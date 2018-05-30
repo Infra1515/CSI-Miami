@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using CSI_Miami.Data.CustomAttributes;
 using CSI_Miami.Data.Models.Abstracts;
 
 namespace CSI_Miami.Data.Models
@@ -17,7 +19,9 @@ namespace CSI_Miami.Data.Models
         [MaxLength(100)]
         public string DirectorName { get; set; }
 
+        [ValidateFutureDate]
         [DataType(DataType.Date)]
-        public string ReleaseDate { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime ReleaseDate { get; set; }
     }
 }

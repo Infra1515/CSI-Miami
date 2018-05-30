@@ -13,9 +13,9 @@ using CSI_Miami.Infrastructure.Providers.Contracts;
 using CSI_Miami.Infrastructure.Providers;
 using CSI_Miami.Data.Repository;
 using CSI_Miami.Data.UnitOfWork;
-using CSI_Miami.Infrastructure.DataInitializer;
 using CSI_Miami.Services.Internal;
 using CSI_Miami.Services.Internal.Contracts;
+using CSI_Miami.Infrastructure.DataInitializer;
 
 namespace CSI_Miami.Web
 {

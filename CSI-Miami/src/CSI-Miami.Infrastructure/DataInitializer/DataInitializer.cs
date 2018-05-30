@@ -32,7 +32,7 @@ namespace CSI_Miami.Infrastructure.DataInitializer
                     {
                         Title = "TestMovie" + i,
                         DirectorName = "TestDirector" + i,
-                        ReleaseDate = DateTime.Now.ToShortDateString(),
+                        ReleaseDate = DateTime.Now.Date,
                         IsDeleted = false
                     };
 

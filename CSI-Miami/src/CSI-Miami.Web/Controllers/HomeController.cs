@@ -7,6 +7,7 @@ using CSI_Miami.Infrastructure.Providers.Contracts;
 using CSI_Miami.Services.Internal.Contracts;
 using CSI_Miami.DTO.MovieService;
 using CSI_Miami.Web.Models.HomeViewModels.Results;
+using Microsoft.AspNetCore.Http;
 
 namespace CSI_Miami.Web.Controllers
 {
@@ -52,6 +53,20 @@ namespace CSI_Miami.Web.Controllers
             };
 
             return View(resultsViewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditMovie(ResultsMoviesViewModel movie)
+        {
+            var isEdited = false;
+            if (ModelState.IsValid)
+            {
+                var editedMovieDto = this.mapper.MapTo<MovieDto>(movie);
+                isEdited = this.movieService.EditMovie(editedMovieDto);
+            }
+            return this.Json(new JsonResult(new { isEdited }));
         }
 
         [Authorize]

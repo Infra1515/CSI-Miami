@@ -1,27 +1,41 @@
-﻿$(function () {
-    $(".table").on('submit', '.edit-test', function (event) {
+﻿
+$(function () {
+    $(".table").on('submit', '.edit-movie', function (event) {
         event.preventDefault();
 
         var form = $(this);
+        var id = form.children('#movie_Id').val();
 
-        var id = form.children('#Id').val();
+        var newMovieName = $('#movie-title-' + id).val();
+        var newDirectorName = $("#movie-director-" + id).val();
+        var newReleaseDate = $("#movie-releasedate-" + id).val();
 
-        var url = this.action + '/' + id;
-        console.log(url);
+        var currentMovieName = $('#table-movie-title-' + id);
+        var currentMovieDirectorName = $('#table-movie-directorName-' + id);
+        var currentMovieReleaseDate = $('#table-movie-releaseDate-' + id);
+        console.log(currentMovieReleaseDate.html());
 
-        //var movieName = $('#movie-title-' + id).val();
-        //var directorName = $("#movie-director-" + id).val();
-        //var releaseDate = $("movie-releasedate-" + id).val();
+
+        var url = this.action;
 
         var data = form.serialize();
 
+        $(`#myModalNorm-${id}`).modal('hide');
 
         $.ajax({
             type: 'POST',
             url: url,
             data: data,
-            success: function (response) {
-                console.log('fuck yeah');
+            success: function (response, status, headers) {
+                if (response.value.isEdited === true) {
+                    currentMovieName.html(newMovieName);
+                    currentMovieDirectorName.html(newDirectorName);
+                    currentMovieReleaseDate.html(newReleaseDate);
+                    window.alert('Movie was successfully edited!');
+                }
+                else {
+                    window.alert("The edit failed. Please try again later!");
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr);
@@ -29,7 +43,6 @@
                 alert(thrownError);
             }
         });
-
 
     })
 })

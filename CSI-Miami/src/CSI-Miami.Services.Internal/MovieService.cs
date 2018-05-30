@@ -31,6 +31,36 @@ namespace CSI_Miami.Services.Internal
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
+        public bool EditMovie(MovieDto editedMovie)
+        {
+            if (editedMovie == null)
+            {
+                throw new ArgumentNullException(nameof(editedMovie));
+            }
+
+            var isEdited = false;
+
+            try
+            {
+                var movieToEdit = this.moviesRepo.All
+                                             .Where(m => m.Id == editedMovie.Id)
+                                             .FirstOrDefault();
+
+
+                movieToEdit.Title = editedMovie.Title;
+                movieToEdit.DirectorName = editedMovie.DirectorName;
+                movieToEdit.ReleaseDate = editedMovie.ReleaseDate;
+                this.dataSaver.SaveChanges();
+                isEdited = true;
+            }
+            catch
+            {
+                isEdited = false;
+            }
+
+            return isEdited;
+
+        }
 
         public IEnumerable<MovieDto> GetAllMovies(int moviesToSkip)
         {

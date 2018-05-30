@@ -11,9 +11,10 @@ using System;
 namespace CSIMiami.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180530141137_change ReleaseDate to Date field")]
+    partial class changeReleaseDatetoDatefield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,7 +88,8 @@ namespace CSIMiami.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedOn");
 
-                    b.Property<DateTime>("ReleaseDate");
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("Date");
 
                     b.Property<string>("Title")
                         .IsRequired()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CSI_Miami.DTO.MovieService
 {
@@ -10,6 +11,9 @@ namespace CSI_Miami.DTO.MovieService
 
         public string DirectorName { get; set; }
 
-        public string ReleaseDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime ReleaseDate { get; set; }
     }
 }
