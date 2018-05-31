@@ -31,6 +31,37 @@ namespace CSI_Miami.Services.Internal
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
+        public bool CreateMovie(MovieDto createdMovieDto)
+        {
+            if (createdMovieDto == null)
+            {
+                throw new ArgumentNullException(nameof(createdMovieDto));
+            }
+
+            var isCreated = false;
+
+            try
+            {
+                var movieToAdd = new Movie
+                {
+                    IsDeleted = false,
+                    Title = createdMovieDto.Title,
+                    DirectorName = createdMovieDto.DirectorName,
+                    ReleaseDate = createdMovieDto.ReleaseDate
+                };
+
+                this.moviesRepo.Add(movieToAdd);
+                this.dataSaver.SaveChanges();
+                isCreated = true;
+            }
+            catch
+            {
+                isCreated = false;
+            }
+
+            return isCreated;
+        }
+
         public bool EditMovie(MovieDto editedMovie)
         {
             if (editedMovie == null)

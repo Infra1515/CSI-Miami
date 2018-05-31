@@ -54,4 +54,39 @@ $(function () {
         });
 
     })
+
+    $('#footer-buttons').on('submit', '.create-movie', function (event) {
+        event.preventDefault();
+
+        var form = $(this);
+        var url = this.action;
+        var data = form.serialize();
+        $('#myModalNormAddMovie').modal('hide');
+
+        var newMovieName = $('#create-movie-title').val();
+        var newDirectorName = $("#create-#movie-director").val();
+        var newReleaseDate = $("#create-movie-releasedate").val();
+
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+            success: function (response, status, headers) {
+                if (response.value.isCreated === true) {
+
+                    window.alert('Movie was successfully created!');
+                }
+                else {
+                    window.alert("The edit failed. Please try again later!");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr);
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+
+    });
 })

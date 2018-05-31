@@ -70,6 +70,21 @@ namespace CSI_Miami.Web.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateMovie(ResultsMoviesViewModel newMovie)
+        {
+            var isCreated = false;
+            if (ModelState.IsValid)
+            {
+                var createdMovieDto = this.mapper.MapTo<MovieDto>(newMovie);
+                isCreated = this.movieService.CreateMovie(createdMovieDto);
+            }
+
+            return this.Json(new JsonResult(new { isCreated }));
+        }
+
+        [Authorize]
         public IActionResult LoadMoreMovies()
         {
             // store how much movies we have loaded so far in ViewData[] and increase it each time

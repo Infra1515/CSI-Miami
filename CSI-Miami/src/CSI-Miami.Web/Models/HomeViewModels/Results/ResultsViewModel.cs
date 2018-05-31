@@ -9,5 +9,6 @@ namespace CSI_Miami.Web.Models.HomeViewModels.Results
     {
         public string UserName { get; set; }
         public IEnumerable<ResultsMoviesViewModel> Movies { get; set; }
+        public ResultsMoviesViewModel NewMovie { get; set; }
     }
 }
