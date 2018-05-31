@@ -20,16 +20,20 @@ namespace CSI_Miami.Services.Internal
         private readonly IDataSaver dataSaver;
         private readonly IMemoryCache memoryCache;
         private readonly IConfiguration configuration;
+        private readonly IExporterProvider jsonExporterProvider;
 
         public MovieService(IMappingProvider mapper, IDataRepository<Movie> moviesRepo,
-            IDataSaver dataSaver, IMemoryCache memoryCache, IConfiguration configuration)
+            IDataSaver dataSaver, IMemoryCache memoryCache, IConfiguration configuration,
+            IExporterProvider jsonExporterProvider)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.moviesRepo = moviesRepo ?? throw new ArgumentNullException(nameof(moviesRepo));
             this.dataSaver = dataSaver ?? throw new ArgumentNullException(nameof(dataSaver));
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.jsonExporterProvider = jsonExporterProvider ?? throw new ArgumentNullException(nameof(jsonExporterProvider));
         }
+
 
         public bool CreateMovie(MovieDto createdMovieDto)
         {

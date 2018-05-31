@@ -152,7 +152,11 @@
                 </div>*@
 
             <div class="col-sm-12 text-center" id="footer-buttons">
-                <a asp-controller="Home" asp-action="ExportToFile" class="btn btn-primary pull-right">Export To File</a>
+                <a asp-controller="Home" asp-action="Download"
+                   class="btn btn-primary pull-right" id="export-movies-btn">
+                    Export Movie Catalog To File
+                    <span class="glyphicon glyphicon-cloud-download"></span>
+                </a>
 
                 <button type="button" class="btn btn-primary pull-left" data-toggle="modal" data-target="#myModalNormAddMovie">
                     <span class="glyphicon glyphicon-cloud-upload"></span>

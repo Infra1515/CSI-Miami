@@ -18,7 +18,6 @@ $(function () {
         var modalDetailsDirectorName = $("#movie-director-details-" + id);
         var modalDetailsReleaseDate = $("#movie-releasedate-details-" + id);
 
-
         var url = this.action;
 
         var data = form.serialize();
@@ -79,6 +78,34 @@ $(function () {
                 }
                 else {
                     window.alert("The edit failed. Please try again later!");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr);
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+
+    });
+
+
+    $('#footer-buttons').on('click', '#export-movies-btn', function (event) {
+        event.preventDefault();
+
+        var button = $(this);
+        url = this.href + "/" + "movies.json";
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (response, status, headers) {
+                if (response.value.success === true) {
+
+                    window.alert('Movie catalog was successfully exported!');
+                }
+                else {
+                    window.alert("The export failed. Please try again later!");
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {

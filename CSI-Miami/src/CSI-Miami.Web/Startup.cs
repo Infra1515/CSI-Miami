@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.IO;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
@@ -57,6 +58,7 @@ namespace CSI_Miami.Web
             services.AddScoped<IMappingProvider, MappingProvider>();
             services.AddScoped<IUserManagerProvider, UserManagerProvider>();
             services.AddScoped<IDataInitializer, DataInitializer>();
+            services.AddScoped<IExporterProvider, JsonFileExporter>();
 
 
             services.AddAutoMapper(options =>
@@ -106,7 +108,8 @@ namespace CSI_Miami.Web
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-            IDataInitializer dataInitializer, ApplicationDbContext context)
+            IDataInitializer dataInitializer, ApplicationDbContext context,
+            IExporterProvider exporterProvider)
         {
             if (env.IsDevelopment())
             {
@@ -132,7 +135,10 @@ namespace CSI_Miami.Web
 
             context.Database.Migrate();
             dataInitializer.Initialize();
-
+            //exporterProvider
+            //    .WriteDataAsJson(exporterProvider
+            //    .ExportDataAsJson("SELECT Id, DirectorName, ReleaseDate, Title FROM Movies"), Path.Combine(
+            //               Directory.GetCurrentDirectory()));
         }
     }
 }

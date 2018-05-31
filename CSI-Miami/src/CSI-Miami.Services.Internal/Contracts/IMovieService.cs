@@ -10,5 +10,6 @@ namespace CSI_Miami.Services.Internal.Contracts
         IEnumerable<MovieDto> GetAllMovies(int moviesToSkip);
         bool EditMovie(MovieDto editedMovie);
         bool CreateMovie(MovieDto createdMovieDto);
+
     }
 }
