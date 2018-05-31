@@ -10,6 +10,7 @@ using CSI_Miami.Web.Models.HomeViewModels.Results;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CSI_Miami.Web.Controllers
 {
@@ -19,14 +20,19 @@ namespace CSI_Miami.Web.Controllers
         private readonly IUserManagerProvider userManager;
         private readonly IMovieService movieService;
         private readonly IExporterProvider exporterProvider;
+        private readonly IMemoryCache memoryCache;
 
-        public HomeController(IMappingProvider mapper, IUserManagerProvider userManager,
-            IMovieService movieService, IExporterProvider exporterProvider)
+        public HomeController(IMappingProvider mapper,
+            IUserManagerProvider userManager,
+            IMovieService movieService,
+            IExporterProvider exporterProvider,
+            IMemoryCache memoryCache)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             this.movieService = movieService ?? throw new ArgumentNullException(nameof(movieService));
             this.exporterProvider = exporterProvider ?? throw new ArgumentNullException(nameof(exporterProvider));
+            this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
         public IActionResult Index()
@@ -99,12 +105,16 @@ namespace CSI_Miami.Web.Controllers
             var path = Path.Combine(
                            Directory.GetCurrentDirectory(), id);
 
+            var dataAsJsonString = string.Empty;
 
-
-            var dataAsJson = exporterProvider
+            if (!this.memoryCache.TryGetValue("moviesInDb", out dataAsJsonString))
+            {
+                dataAsJsonString = exporterProvider
                 .ExportDataAsJson("SELECT Id, DirectorName, ReleaseDate, Title FROM Movies");
-
-            exporterProvider.WriteDataAsJson(dataAsJson);
+                this.memoryCache.Set("moviesInDb", dataAsJsonString,
+                   TimeSpan.FromHours(8));
+                exporterProvider.WriteDataAsJson(dataAsJsonString);
+            }
 
 
             var memory = new MemoryStream();
