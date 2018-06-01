@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 
 namespace CSI_Miami.Web.Controllers
 {
@@ -21,18 +22,21 @@ namespace CSI_Miami.Web.Controllers
         private readonly IMovieService movieService;
         private readonly IExporterProvider exporterProvider;
         private readonly IMemoryCache memoryCache;
+        private readonly IConfiguration configuration;
 
         public HomeController(IMappingProvider mapper,
             IUserManagerProvider userManager,
             IMovieService movieService,
             IExporterProvider exporterProvider,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache,
+            IConfiguration configuration)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             this.movieService = movieService ?? throw new ArgumentNullException(nameof(movieService));
             this.exporterProvider = exporterProvider ?? throw new ArgumentNullException(nameof(exporterProvider));
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public IActionResult Index()
@@ -62,6 +66,8 @@ namespace CSI_Miami.Web.Controllers
                 UserName = userName
             };
 
+            TempData.Clear();
+            TempData.Add("moviesToSkip", 0);
             return View(resultsViewModel);
         }
 
@@ -107,6 +113,7 @@ namespace CSI_Miami.Web.Controllers
 
             var dataAsJsonString = string.Empty;
 
+
             if (!this.memoryCache.TryGetValue("moviesInDb", out dataAsJsonString))
             {
                 dataAsJsonString = exporterProvider
@@ -115,6 +122,7 @@ namespace CSI_Miami.Web.Controllers
                    TimeSpan.FromHours(8));
                 exporterProvider.WriteDataAsJson(dataAsJsonString);
             }
+
 
 
             var memory = new MemoryStream();
@@ -129,25 +137,72 @@ namespace CSI_Miami.Web.Controllers
         }
 
         [Authorize]
-        public IActionResult LoadMoreMovies()
+        public IActionResult LoadNext()
         {
-            // store how much movies we have loaded so far in ViewData[] and increase it each time
-            // this action is called
-            return View();
+
+            int moviesToSkip;
+            var totalMoviesCount = this.movieService.GetTotalMoviesCount();
+            int moviesToShow = int.Parse(configuration["MoviesPerPage"]);
+
+
+            var obj = TempData["moviesToSkip"];
+            moviesToSkip = (int)obj;
+            moviesToSkip += moviesToShow;
+
+            TempData["moviesToSkip"] = moviesToSkip;
+
+            if (moviesToSkip >= totalMoviesCount)
+            {
+                moviesToSkip = totalMoviesCount;
+                TempData["moviesToSkip"] = moviesToSkip;
+                return this.PartialView("_NoMoreMoviesPartial");
+            }
+
+
+
+            var allMovies = this.movieService.LoadNext(moviesToSkip);
+            var allMoviesViewModel = this.mapper
+                .EnumerableProjectTo<MovieDto, ResultsMoviesViewModel>(allMovies);
+
+            return this.PartialView("_MoviesListPartial", allMoviesViewModel);
         }
 
-        public IActionResult About()
+        [Authorize]
+        public IActionResult LoadPrevious()
         {
-            ViewData["Message"] = "Your application description page.";
+            int moviesToSkip;
+            var moviesToShow = int.Parse(configuration["MoviesPerPage"]);
 
-            return View();
-        }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+            var obj = TempData["moviesToSkip"];
+            moviesToSkip = (int)obj;
 
-            return View();
+            if (moviesToSkip % moviesToShow != 0)
+            {
+                var x = moviesToSkip / moviesToShow; // find the closest number less than moviesToSkip that can be devided by moviesToShow without remainder
+                moviesToSkip = x * moviesToShow;
+            }
+            else
+            {
+                moviesToSkip -= moviesToShow;
+            }
+            TempData["moviesToSkip"] = moviesToSkip;
+
+
+            if (moviesToSkip < 0)
+            {
+                moviesToSkip = -moviesToShow;
+                TempData["moviesToSkip"] = moviesToSkip;
+                return this.PartialView("_NoMoreMoviesPartial");
+            }
+
+
+
+            var allMovies = this.movieService.LoadPrevious(moviesToSkip);
+            var allMoviesViewModel = this.mapper
+                .EnumerableProjectTo<MovieDto, ResultsMoviesViewModel>(allMovies);
+
+            return this.PartialView("_MoviesListPartial", allMoviesViewModel);
         }
 
         public IActionResult Error()

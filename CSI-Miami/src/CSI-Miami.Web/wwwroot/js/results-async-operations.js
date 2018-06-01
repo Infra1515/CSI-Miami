@@ -95,18 +95,46 @@ $(function () {
 
         var button = $(this);
         url = this.href + "/" + "movies.json";
+        window.location = url;
+    });
+
+
+    $('#footer-buttons').on('click', '#load-next-btn', function (event) {
+        event.preventDefault();
+
+        var button = $(this)
+        var url = this.href;
+        var tableBodyToReplace = $("#movies-table-body");
 
         $.ajax({
             type: 'GET',
             url: url,
-            success: function (response, status, headers) {
-                if (response.value.success === true) {
+            success: function (response, status, xhr) {
+                tableBodyToReplace.empty().append(response);
+                button.prop('disable', true);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr);
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
 
-                    window.alert('Movie catalog was successfully exported!');
-                }
-                else {
-                    window.alert("The export failed. Please try again later!");
-                }
+    });
+
+    $('#footer-buttons').on('click', '#load-previous-btn', function (event) {
+        event.preventDefault();
+
+        var button = $(this)
+        var url = this.href;
+        var tableBodyToReplace = $("#movies-table-body");
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (response, status, xhr) {
+                tableBodyToReplace.empty().append(response);
+                button.prop('disable', true);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr);

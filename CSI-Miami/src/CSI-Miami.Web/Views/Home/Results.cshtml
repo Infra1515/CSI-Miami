@@ -17,7 +17,7 @@
                         <th>Release date</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="movies-table-body">
                     @foreach (var movie in Model.Movies)
                     {
                         <tr>
@@ -209,9 +209,24 @@
                     </div>
                 </div>
 
+                <a asp-controller="Home" asp-action="LoadPrevious" id="load-previous-btn"
+                   class="previous round text-center disabled">&#8249;</a>
 
-                <a asp-controller="Home" asp-action="LoadLessMovies" class="previous round text-center">&#8249;</a>
-                <a asp-controller="Home" asp-action="LoadMoreMovies" class="next round text-center">&#8250;</a>
+                <a asp-controller="Home" asp-action="LoadNext" id="load-next-btn"
+                   class="next round text-center">&#8250;</a>
+
+                @*<a asp-controller="Home" asp-action="LoadPrevious" id="load-previous-btn">
+                        <button class="button button-blue button-bordered">
+                            <span class="button--inner">Previous</span>
+                        </button>
+                    </a>
+
+                    <a asp-controller="Home" asp-action="LoadNext" id="load-next-btn">
+                        <button class="button button-blue button-bordered">
+                            <span class="button--inner">Next</span>
+                        </button>
+                    </a>*@
+
             </div>
 
         </div>

@@ -1,0 +1,126 @@
+﻿@model IEnumerable<CSI_Miami.Web.Models.HomeViewModels.Results.ResultsMoviesViewModel>
+@foreach (var movie in Model)
+{
+    <tr>
+        <td>
+            <input id="Id" name="Id" type="hidden" value="@movie.Id" />
+            <button type="button" class="col-xs-12 btn btn-default btn-xs" data-toggle="modal" data-target="#myModalNorm-@movie.Id">
+                <span class="glyphicon glyphicon-edit"></span>
+                Edit
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="myModalNorm-@movie.Id" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <button type="button" class="close"
+                                    data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                Edit Movie
+                            </h4>
+                        </div>
+                        <!-- Modal Body -->
+                        <div class="modal-body">
+                            <form asp-controller="Home" asp-action="EditMovie" method="post" class="edit-movie">
+                                @*<input id="Id" name="Id" type="hidden" value="@movie.Id" />*@
+                                <input asp-for="@movie.Id" type="hidden" class="form-control" />
+                                <div class="form-group">
+                                    <label for="movieTitle">New Movie Title</label>
+                                    <input asp-for="@movie.Title" type="text" class="form-control"
+                                           id="movie-title-@movie.Id" />
+                                    <span asp-validation-for="@movie.Title" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="movieDirector">New Movie Director</label>
+                                    <input asp-for="@movie.DirectorName" type="text" class="form-control"
+                                           id="movie-director-@movie.Id" />
+                                    <span asp-validation-for="@movie.DirectorName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="movieReleaseDate">New Release date</label>
+                                    <input asp-for="@movie.ReleaseDate" type="date" class="form-control"
+                                           id="movie-releasedate-@movie.Id"
+                                           min="1900-01-01" , max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                    <span asp-validation-for="@movie.ReleaseDate" class="text-danger"></span>
+                                </div>
+                                <button type="submit" class="btn btn-default">Update Movie</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+            <input id="Id" name="Id" type="hidden" value="@movie.Id" />
+            <button type="button" class="col-xs-12 btn btn-default btn-xs" data-toggle="modal" data-target="#myModalNormDetails-@movie.Id">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                Details
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="myModalNormDetails-@movie.Id" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <button type="button" class="close"
+                                    data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                @movie.Title Details
+                            </h4>
+                        </div>
+                        <!-- Modal Body -->
+                        <div class="modal-body">
+                            @*<input id="Id" name="Id" type="hidden" value="@movie.Id" />*@
+                            <input asp-for="@movie.Id" type="hidden" class="form-control" />
+                            <div class="form-group">
+                                <label for="movieTitle">Movie Title</label>
+                                <input asp-for="@movie.Title" type="text" class="form-control"
+                                       id="movie-title-details-@movie.Id"
+                                       readonly />
+                                <span asp-validation-for="@movie.Title" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="movieDirector">Movie Director</label>
+                                <input asp-for="@movie.DirectorName" type="text" class="form-control"
+                                       id="movie-director-details-@movie.Id"
+                                       readonly />
+                                <span asp-validation-for="@movie.DirectorName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="movieReleaseDate">Release date</label>
+                                <input asp-for="@movie.ReleaseDate" type="text" class="form-control"
+                                       id="movie-releasedate-details-@movie.Id"
+                                       min="1900-01-01" , max="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                       readonly />
+                                <span asp-validation-for="@movie.ReleaseDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+            @movie.Id
+        </td>
+        <td id="table-movie-title-@movie.Id">
+            @movie.Title
+        </td>
+        <td id="table-movie-directorName-@movie.Id">
+            @movie.DirectorName
+        </td>
+        <td id="table-movie-releaseDate-@movie.Id">
+            @Html.DisplayFor(m => movie.ReleaseDate)
+        </td>
+    </tr>
+}

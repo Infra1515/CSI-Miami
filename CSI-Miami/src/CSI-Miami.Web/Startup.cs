@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
@@ -135,10 +134,6 @@ namespace CSI_Miami.Web
 
             context.Database.Migrate();
             dataInitializer.Initialize();
-            //exporterProvider
-            //    .WriteDataAsJson(exporterProvider
-            //    .ExportDataAsJson("SELECT Id, DirectorName, ReleaseDate, Title FROM Movies"), Path.Combine(
-            //               Directory.GetCurrentDirectory()));
         }
     }
 }
