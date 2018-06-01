@@ -186,6 +186,7 @@ namespace CSI_Miami.Web.Controllers
             {
                 moviesToSkip -= moviesToShow;
             }
+
             TempData["moviesToSkip"] = moviesToSkip;
 
 
