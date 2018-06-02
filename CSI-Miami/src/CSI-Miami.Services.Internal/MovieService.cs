@@ -102,7 +102,7 @@ namespace CSI_Miami.Services.Internal
 
             try
             {
-                moviesPerPage = int.Parse(configuration["MoviesPerPage"]);
+                moviesPerPage = int.Parse(this.configuration["MoviesPerPage"]);
             }
             catch (KeyNotFoundException)
             {
@@ -127,6 +127,11 @@ namespace CSI_Miami.Services.Internal
             }
 
             return movieDtos;
+        }
+
+        public int GetMoviesPerPage()
+        {
+            return int.Parse(this.configuration["MoviesPerPage"]);
         }
 
         public int GetTotalMoviesCount()

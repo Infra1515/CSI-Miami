@@ -22,21 +22,18 @@ namespace CSI_Miami.Web.Controllers
         private readonly IMovieService movieService;
         private readonly IExporterProvider exporterProvider;
         private readonly IMemoryCache memoryCache;
-        private readonly IConfiguration configuration;
 
         public HomeController(IMappingProvider mapper,
             IUserManagerProvider userManager,
             IMovieService movieService,
             IExporterProvider exporterProvider,
-            IMemoryCache memoryCache,
-            IConfiguration configuration)
+            IMemoryCache memoryCache)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             this.movieService = movieService ?? throw new ArgumentNullException(nameof(movieService));
             this.exporterProvider = exporterProvider ?? throw new ArgumentNullException(nameof(exporterProvider));
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public IActionResult Index()
@@ -142,8 +139,7 @@ namespace CSI_Miami.Web.Controllers
 
             int moviesToSkip;
             var totalMoviesCount = this.movieService.GetTotalMoviesCount();
-            int moviesToShow = int.Parse(configuration["MoviesPerPage"]);
-
+            int moviesToShow = this.movieService.GetMoviesPerPage();
 
             var obj = TempData["moviesToSkip"];
             moviesToSkip = (int)obj;
@@ -158,8 +154,6 @@ namespace CSI_Miami.Web.Controllers
                 return this.PartialView("_NoMoreMoviesPartial");
             }
 
-
-
             var allMovies = this.movieService.LoadNext(moviesToSkip);
             var allMoviesViewModel = this.mapper
                 .EnumerableProjectTo<MovieDto, ResultsMoviesViewModel>(allMovies);
@@ -171,7 +165,7 @@ namespace CSI_Miami.Web.Controllers
         public IActionResult LoadPrevious()
         {
             int moviesToSkip;
-            var moviesToShow = int.Parse(configuration["MoviesPerPage"]);
+            var moviesToShow = this.movieService.GetMoviesPerPage();
 
 
             var obj = TempData["moviesToSkip"];
@@ -179,7 +173,9 @@ namespace CSI_Miami.Web.Controllers
 
             if (moviesToSkip % moviesToShow != 0)
             {
-                var x = moviesToSkip / moviesToShow; // find the closest number less than moviesToSkip that can be devided by moviesToShow without remainder
+                // find the closest number less than moviesToSkip that can be 
+                // divided by moviesToShow without remainder
+                var x = moviesToSkip / moviesToShow;
                 moviesToSkip = x * moviesToShow;
             }
             else
@@ -196,8 +192,6 @@ namespace CSI_Miami.Web.Controllers
                 TempData["moviesToSkip"] = moviesToSkip;
                 return this.PartialView("_NoMoreMoviesPartial");
             }
-
-
 
             var allMovies = this.movieService.LoadPrevious(moviesToSkip);
             var allMoviesViewModel = this.mapper

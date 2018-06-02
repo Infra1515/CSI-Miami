@@ -33,7 +33,6 @@ namespace CSI_Miami.Web.Tests.HomeControllerTests
             this.userManagerMock = new Mock<IUserManagerProvider>();
             this.exporterProviderMock = new Mock<IExporterProvider>();
             this.memoryCacheMock = new Mock<IMemoryCache>();
-            this.configurationMock = new Mock<IConfiguration>();
         }
 
 
@@ -64,7 +63,7 @@ namespace CSI_Miami.Web.Tests.HomeControllerTests
 
             var sut = new HomeController(mapperMock.Object, userManagerMock.Object,
                 movieServiceMock.Object, exporterProviderMock.Object,
-                memoryCacheMock.Object, configurationMock.Object)
+                memoryCacheMock.Object)
             {
                 ControllerContext = context
             };
@@ -104,7 +103,7 @@ namespace CSI_Miami.Web.Tests.HomeControllerTests
 
             var sut = new HomeController(mapperMock.Object, userManagerMock.Object,
               movieServiceMock.Object, exporterProviderMock.Object,
-              memoryCacheMock.Object, configurationMock.Object)
+              memoryCacheMock.Object)
             {
                 ControllerContext = context
             };

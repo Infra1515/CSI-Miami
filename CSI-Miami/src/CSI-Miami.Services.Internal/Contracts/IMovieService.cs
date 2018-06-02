@@ -13,5 +13,6 @@ namespace CSI_Miami.Services.Internal.Contracts
         IEnumerable<MovieDto> LoadNext(int moviesToSkip);
         IEnumerable<MovieDto> LoadPrevious(int moviesToSkip);
         int GetTotalMoviesCount();
+        int GetMoviesPerPage();
     }
 }
