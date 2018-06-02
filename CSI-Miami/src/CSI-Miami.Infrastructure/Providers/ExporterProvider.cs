@@ -53,10 +53,7 @@ namespace CSI_Miami.Infrastructure.Providers
                             row = new Dictionary<string, object>();
                             foreach (DataColumn col in dt.Columns)
                             {
-
                                 row.Add(col.ColumnName, dr[col]);
-
-
                             }
                             rows.Add(row);
                         }
@@ -72,19 +69,15 @@ namespace CSI_Miami.Infrastructure.Providers
         {
             lock (obj)
             {
-                try
+
+                using (StreamWriter writer =
+                    new StreamWriter("movies.json", true, Encoding.UTF8))
                 {
-                    using (StreamWriter writer =
-                        new StreamWriter("movies.json", true, Encoding.UTF8))
-                    {
-                        writer.Write(text);
-                    }
-                }
-                catch
-                {
-                    throw;
+                    writer.Write(text);
                 }
             }
+
         }
     }
 }
+

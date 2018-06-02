@@ -31,7 +31,7 @@ namespace CSI_Miami.Infrastructure.DataInitializer
                     var movie = new Movie()
                     {
                         Title = "TestMovie" + i,
-                        DirectorName = "TestDirector" + i,
+                        DirectorName = "Horation Caine" + i,
                         ReleaseDate = DateTime.Now.Date,
                         IsDeleted = false
                     };

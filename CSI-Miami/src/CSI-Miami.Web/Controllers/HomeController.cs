@@ -113,6 +113,11 @@ namespace CSI_Miami.Web.Controllers
 
             if (!this.memoryCache.TryGetValue("moviesInDb", out dataAsJsonString))
             {
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+
                 dataAsJsonString = exporterProvider
                 .ExportDataAsJson("SELECT Id, DirectorName, ReleaseDate, Title FROM Movies");
                 this.memoryCache.Set("moviesInDb", dataAsJsonString,

@@ -7,7 +7,6 @@ using CSI_Miami.Data.UnitOfWork;
 using CSI_Miami.DTO.MovieService;
 using CSI_Miami.Infrastructure.Providers.Contracts;
 using CSI_Miami.Services.Internal.Contracts;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 
 namespace CSI_Miami.Services.Internal
@@ -116,14 +115,16 @@ namespace CSI_Miami.Services.Internal
                 moviesPerPage = allMovies.Count() - moviesToSkip;
                 movieDtos = this.mapper.ProjectTo<MovieDto>(allMovies)
                 .Skip(moviesToSkip)
-                .Take(moviesPerPage);
+                .Take(moviesPerPage)
+                .ToList();
 
             }
             else
             {
                 movieDtos = this.mapper.ProjectTo<MovieDto>(allMovies)
                     .Skip(moviesToSkip)
-                    .Take(moviesPerPage);
+                    .Take(moviesPerPage)
+                    .ToList();
             }
 
             return movieDtos;
@@ -131,7 +132,18 @@ namespace CSI_Miami.Services.Internal
 
         public int GetMoviesPerPage()
         {
-            return int.Parse(this.configuration["MoviesPerPage"]);
+            int moviesPerPage;
+            try
+            {
+                moviesPerPage = int.Parse(this.configuration["MoviesPerPage"]);
+            }
+            catch (KeyNotFoundException)
+            {
+                moviesPerPage = 10;
+            }
+
+            return moviesPerPage;
+
         }
 
         public int GetTotalMoviesCount()

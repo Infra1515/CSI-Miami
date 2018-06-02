@@ -111,7 +111,6 @@ $(function () {
             url: url,
             success: function (response, status, xhr) {
                 tableBodyToReplace.empty().append(response);
-                button.prop('disable', true);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr);
@@ -134,7 +133,6 @@ $(function () {
             url: url,
             success: function (response, status, xhr) {
                 tableBodyToReplace.empty().append(response);
-                button.prop('disable', true);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr);
